@@ -152,9 +152,88 @@ const YoutubeEmbed = ({ yurl }) => {
       width="480"
       height="270"
       src={`https://www.youtube.com/embed/${embedId}`}
-      frameBorder="0"
+      style="boarder:0"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
       allowFullScreen
       title="Embedded youtube"
     />
+}
+
+// TODO: startButton, videoElement, userInput.value
+
+import StreamingAvatar, {
+  AvatarQuality,
+  StreamingEvents,
+  TaskType,
+} from "@heygen/streaming-avatar";
+
+let avatar = null;
+let sessionData = null;
+
+// Helper function to fetch access token
+async function fetchAccessToken() {
+  const apiKey = import.meta.env.HEYGEN_API_KEY;
+  const response = await fetch(
+    "https://api.heygen.com/v1/streaming.create_token",
+    {
+      method: "POST",
+      headers: { "x-api-key": apiKey },
+    }
+  );
+
+  const { data } = await response.json();
+  return data.token;
+}
+
+// Initialize streaming avatar session
+async function initializeAvatarSession() {
+  const token = await fetchAccessToken();
+  avatar = new StreamingAvatar({ token });
+
+  sessionData = await avatar.createStartAvatar({
+    quality: AvatarQuality.High,
+    avatarName: "default",
+  });
+
+  console.log("Session data:", sessionData);
+
+  startButton.disabled = true;
+
+  avatar.on(StreamingEvents.STREAM_READY, handleStreamReady);
+  avatar.on(StreamingEvents.STREAM_DISCONNECTED, handleStreamDisconnected);
+}
+
+// Handle when avatar stream is ready
+function handleStreamReady(event) {
+  if (event.detail && videoElement) {
+    videoElement.srcObject = event.detail;
+    videoElement.onloadedmetadata = () => {
+      videoElement.play().catch(console.error);
+    };
+  } else {
+    console.error("Stream is not available");
+  }
+}
+
+// Handle stream disconnection
+function handleStreamDisconnected() {
+  console.log("Stream disconnected");
+  if (videoElement) {
+    videoElement.srcObject = null;
+  }
+
+  startButton.disabled = false;
+}
+
+// TODO: startボタンで発火
+// Handle speaking event
+async function handleSpeak() {
+  await initializeAvatarSession()
+  if (avatar && userInput.value) {
+    await avatar.speak({
+      text: userInput.value,
+      taskType: TaskType.REPEAT,
+    });
+    userInput.value = ""; // Clear input after speaking
+  }
 }
