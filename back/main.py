@@ -4,7 +4,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from youtube_transcript_api import YouTubeTranscriptApi
 from openai import OpenAI
+import requests
 import re
+import os
 
 app = FastAPI()
 origins = [
@@ -42,6 +44,60 @@ def put_video(video: Video):
     # print(summary)
 
     return {"result": "ok"}
+
+@app.put("/heygen")
+def gen_heygen(text: str):
+    print(text)
+
+    headers = {
+        "accept": "application/json",
+        "content-type": "application/json",
+        "x-api-key": os.environ["HEYGEN_API_KEY"],
+    }
+
+    payload = {
+        "video_inputs": [{
+            "voice": {
+                "type": "text",
+                "input_text": text[:3000],
+                "voice_id": "d36f8d1c27054f7baa52c216ad874d16",
+            },
+            "character": {
+                "type": "avatar",
+                "avatar_id": "nik_blue_expressive_20240910",
+            },
+        }],
+        "caption": True,
+        "dimension": {
+            "width": 720,
+            "height": 480,
+        },
+    }
+
+    response = requests.post("https://api.heygen.com/v2/video/generate", json=payload, headers=headers)
+    print(response.text)
+
+    video_id = response.json()['data']['video_id']
+
+    return {"video_id": video_id}
+
+@app.get("/heygen/{video_id}")
+def get_heygen(video_id: str):
+    print(video_id)
+
+    url = "https://api.heygen.com/v1/video_status.get?video_id=" + video_id
+
+    headers = {
+        "accept": "application/json",
+        "x-api-key": os.environ["HEYGEN_API_KEY"],
+    }
+
+    response = requests.get(url, headers=headers)
+    print(response.text)
+
+    video_url = response.json()['data']['video_url_caption']
+
+    return {"video_url": video_url}
 
 def parse_youtube_url(url: str)->str:
     data = re.findall(r"(?:v=|\/)([0-9A-Za-z_-]{11}).*", url)
