@@ -1,45 +1,39 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
-  const [response, setResponse] = useState("")
+  const [url, setUrl] = useState("");
+  const [summary, setSummary] = useState(null)
 
   return (
     <>
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <input
+          type="text"
+          placeholder="Enter YouTube URL"
+          value={url}
+          onChange={e => setUrl(e.target.value)}
+        />
+        <button type="button" onClick={() => transcribe(url).then(setSummary)} />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <button onClick={() => f().then(setResponse)}>
-          fetch
-        </button>
-        <p>{response}</p>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+      <div>
+        {summary}
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
 
 export default App
 
-const f = async () => {
-  const r = await fetch("http://127.0.0.1:8000/items/1", { method: "GET" }).then(r => r.json())
-  return JSON.stringify(r)
+const transcribe = async (url) => {
+  const r = await fetch(
+    "http://127.0.0.1:8000/transcribe",
+    {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url: url }),
+    }
+  ).then(r => r.json())
+
+  return r.summary
 }
