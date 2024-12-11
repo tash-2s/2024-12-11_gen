@@ -2,7 +2,7 @@ import os
 import requests
 
 def get():
-    url = "https://api.heygen.com/v1/voice.list"
+    url = "https://api.heygen.com/v1/video_status.get?video_id=" + "4cc70043ce9a4aa29e1618b205a8ccad"
 
     headers = {
         "accept": "application/json",
@@ -15,6 +15,12 @@ def get():
 
 def post():
     url = "https://api.heygen.com/v2/video/generate"
+
+    headers = {
+        "accept": "application/json",
+        "content-type": "application/json",
+        "x-api-key": os.environ["HEYGEN_API_KEY"],
+    }
 
     payload = {
         "video_inputs": [{ "voice": {
@@ -29,12 +35,8 @@ def post():
         },
     }
 
-    headers = {
-        "accept": "application/json",
-        "content-type": "application/json",
-        "x-api-key": os.environ["HEYGEN_API_KEY"],
-    }
-
     response = requests.post(url, json=payload, headers=headers)
 
     print(response.text)
+
+get()
