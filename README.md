@@ -1,4 +1,5 @@
 - back
+    - `export OPENAI_API_KEY="your_api_key_here"`
     - `pip install -r requirements.txt`
     - `fastapi dev main.py`
 - front: `npm run dev`
