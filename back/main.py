@@ -66,7 +66,6 @@ def gen_heygen(heygen_text: HeygenText):
                 "avatar_id": "nik_blue_expressive_20240910",
             },
         }],
-        "caption": True,
         "dimension": {
             "width": 720,
             "height": 480,
@@ -94,7 +93,7 @@ def get_heygen(video_id: str):
     response = requests.get(url, headers=headers)
     print(response.text)
 
-    video_url = response.json()['data']['video_url_caption']
+    video_url = response.json()['data']['video_url']
 
     return {"video_url": video_url}
 

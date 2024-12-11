@@ -2,7 +2,7 @@ import os
 import requests
 
 def get():
-    url = "https://api.heygen.com/v1/video_status.get?video_id=" + "2d88e7eaba4d428eaebf2428be2612f3"
+    url = "https://api.heygen.com/v1/video_status.get?video_id=" + "024ba736992641a288336c0b84006878"
 
     headers = {
         "accept": "application/json",
