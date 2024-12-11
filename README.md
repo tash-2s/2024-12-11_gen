@@ -3,3 +3,4 @@
     - `pip install -r requirements.txt`
     - `fastapi dev main.py`
 - front: `npm run dev`
+- try it out: `https://www.youtube.com/watch?v=TtFm9n3NVzE`

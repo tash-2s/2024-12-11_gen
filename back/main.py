@@ -65,6 +65,6 @@ def put_video(video: Video):
     print(transcript_text)
 
     summary = summarize(transcript_text)
-    print(summary)
+    # print(summary)
 
     return {"result": "ok"}
