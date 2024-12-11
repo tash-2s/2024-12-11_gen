@@ -1,1 +1,2 @@
 - back: `fastapi dev main.py`
+- front: `npm run dev`
