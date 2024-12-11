@@ -1,7 +1,7 @@
 import os
 import requests
 
-url = "https://api.heygen.com/v2/avatars"
+url = "https://api.heygen.com/v1/voice.list"
 
 headers = {
     "accept": "application/json",
