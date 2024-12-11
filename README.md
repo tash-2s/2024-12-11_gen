@@ -1,2 +1,4 @@
-- back: `fastapi dev main.py`
+- back
+    - `pip install -r requirements.txt`
+    - `fastapi dev main.py`
 - front: `npm run dev`
