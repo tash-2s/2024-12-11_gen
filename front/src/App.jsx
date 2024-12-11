@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 
 function App() {
   const [url, setUrl] = useState("");
@@ -100,7 +100,7 @@ const YoutubeEmbed = ({ yurl }) => {
       width="480"
       height="270"
       src={`https://www.youtube.com/embed/${embedId}`}
-      style="boarder:0"
+      style={{boarder:0}}
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
       allowFullScreen
       title="Embedded youtube"
