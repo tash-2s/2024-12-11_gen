@@ -1,4 +1,3 @@
-from typing import Union
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -23,12 +22,8 @@ openai_client = OpenAI()
 class Video(BaseModel):
     url: str
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
-
-@app.put("/video")
-def put_video(video: Video):
+@app.put("/transcribe")
+def transcribe(video: Video):
     print(video)
 
     video_id = parse_youtube_url(video.url)
@@ -41,12 +36,16 @@ def put_video(video: Video):
     print(transcript_text)
 
     summary = summarize(transcript_text)
-    # print(summary)
+    print(summary)
 
-    return {"result": "ok"}
+    return {"summary": summary}
+
+class HeygenText(BaseModel):
+    text: str
 
 @app.put("/heygen")
-def gen_heygen(text: str):
+def gen_heygen(heygen_text: HeygenText):
+    text = heygen_text.text
     print(text)
 
     headers = {
