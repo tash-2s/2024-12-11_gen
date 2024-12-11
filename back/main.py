@@ -124,6 +124,8 @@ You are provided with a transcript from a YouTube video. Your task is to create 
 4. Has a natural flow, suitable for spoken delivery.
 5. Focuses on explaining the content rather than adopting the perspective of the video's creator.
 
+Additionally, make sure the script is designed to be spoken in approximately 1 minute, keeping the content concise and within a typical speaking pace.
+
 Do not include any additional commentary, explanations, or metadata in your response. Provide only the finalized reading script.
              """},
             {"role": "user", "content": transcript_text}
