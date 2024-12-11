@@ -3,7 +3,7 @@ import { useState, useRef } from 'react'
 function App() {
   const [url, setUrl] = useState("");
   const [isUrlLoading, setIsUrlLoading] = useState(false)
-  const [summary, setSummary] = useState(null)
+  const [summary, setSummary] = useState("Hello there!") // TODO: `null`
 
   const foo = async () => {
     setIsUrlLoading(true)
@@ -20,7 +20,7 @@ function App() {
       videoElement.id = 'avatarVideo';
       videoElement.autoplay = true;
       videoElement.playsinline = true;
-      videoElement.width = 640;
+      videoElement.width = 360;
       videoElement.height = 360;
 
       targetDiv.appendChild(videoElement);
@@ -120,7 +120,7 @@ let sessionData = null;
 
 // Helper function to fetch access token
 async function fetchAccessToken() {
-  const apiKey = import.meta.env.HEYGEN_API_KEY;
+  const apiKey = import.meta.env.VITE_HEYGEN_API_KEY;
   const response = await fetch(
     "https://api.heygen.com/v1/streaming.create_token",
     {
@@ -140,7 +140,8 @@ async function initializeAvatarSession() {
 
   sessionData = await avatar.createStartAvatar({
     quality: AvatarQuality.High,
-    avatarName: "default",
+    avatarName: "nik_blue_expressive_20240910",
+    voice: {voiceId: "d36f8d1c27054f7baa52c216ad874d16"},
   });
 
   console.log("Session data:", sessionData);
