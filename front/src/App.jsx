@@ -15,8 +15,14 @@ function App() {
     if (domManipulationArea.current) {
       const targetDiv = domManipulationArea.current;
 
-      // <video id="avatarVideo" autoplay playsinline width="640" height="360"></video>
-      videoElement = document.createElement('p');
+      videoElement = document.createElement('video');
+
+      videoElement.id = 'avatarVideo';
+      videoElement.autoplay = true;
+      videoElement.playsinline = true;
+      videoElement.width = 640;
+      videoElement.height = 360;
+
       targetDiv.appendChild(videoElement);
 
       await handleSpeak(summary)
