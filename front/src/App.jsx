@@ -5,6 +5,7 @@ import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
+  const [response, setResponse] = useState("")
 
   return (
     <>
@@ -21,6 +22,10 @@ function App() {
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
+        <button onClick={() => f().then(setResponse)}>
+          fetch
+        </button>
+        <p>{response}</p>
         <p>
           Edit <code>src/App.jsx</code> and save to test HMR
         </p>
@@ -33,3 +38,8 @@ function App() {
 }
 
 export default App
+
+const f = async () => {
+  const r = await fetch("http://127.0.0.1:8000/items/1", { method: "GET" }).then(r => r.json())
+  return JSON.stringify(r)
+}
