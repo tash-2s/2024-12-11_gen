@@ -19,7 +19,6 @@ function App() {
   const genVid = async () => {
     setIsGeneratingVideo(true)
     const v = await generateVideo(summary)
-    console.log(v)
     setVideoId(v)
   }
 
@@ -32,13 +31,13 @@ function App() {
         return
       }
 
-      const url = await getVideoUrl(videoId)
+      const u = await getVideoUrl(videoId)
 
-      if (url === null) {
+      if (u === null) {
         return
       }
 
-      setVideoUrl(url)
+      setVideoUrl(u)
     }
 
     const interval = setInterval(fetchData, 5000)
@@ -52,15 +51,25 @@ function App() {
         <input
           type="text"
           placeholder="Enter YouTube URL"
+          size={50}
           value={url}
           onChange={e => setUrl(e.target.value)}
         />
+        {" "}
         <button type="button" onClick={() => foo()}>Go</button>
         {isUrlLoading ? <div>Getting transcript and summarizing...</div> : <></>}
       </div>
       {summary === null ? <></> :
         <>
-          <textarea>{summary}</textarea>
+          <textarea
+            value={summary || ""}
+            rows="5"
+            cols="50"
+            style={{
+              overflow: 'scroll',
+            }}
+            readOnly
+          ></textarea>
           <br />
           <button
             type="button"
