@@ -40,7 +40,7 @@ function App() {
       setVideoUrl(u)
     }
 
-    const interval = setInterval(fetchData, 5000)
+    const interval = setInterval(fetchData, 10000)
 
     return () => clearInterval(interval)
   }, [])
@@ -57,10 +57,17 @@ function App() {
         />
         {" "}
         <button type="button" onClick={() => foo()}>Go</button>
+        <br />
+        <br />
+        {isUrlLoading ? <div>
+          <YoutubeEmbed yurl={url} />
+        </div> : <></>}
+        <br />
         {isUrlLoading ? <div>Getting transcript and summarizing...</div> : <></>}
       </div>
       {summary === null ? <></> :
         <>
+          <br />
           <textarea
             value={summary || ""}
             rows="5"
@@ -77,7 +84,11 @@ function App() {
           >
             Generate Video
           </button>
+          <br />
+          <br />
           {isGeneratingVideo ? <div>Generating video... ({videoId})</div> : <></>}
+          <br />
+          <br />
           {videoUrl !== null ? <VideoPlayer url={videoUrl} /> : <></>}
         </>
       }
@@ -133,4 +144,17 @@ function VideoPlayer({ url }) {
       </video>
     </div>
   );
+}
+
+const YoutubeEmbed = ({ yurl }) => {
+  const embedId = yurl.split('?v=')[1]
+  return <iframe
+      width="480"
+      height="270"
+      src={`https://www.youtube.com/embed/${embedId}`}
+      frameBorder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowFullScreen
+      title="Embedded youtube"
+    />
 }
