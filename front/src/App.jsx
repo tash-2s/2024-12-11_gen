@@ -32,7 +32,7 @@ function App() {
   const domManipulationArea = useRef(null);
 
   return (
-    <>
+    <div style={{ marginLeft: '30px', marginTop: '20px' }}>
       <div>
         <input
           type="text"
@@ -75,7 +75,7 @@ function App() {
           <div ref={domManipulationArea}></div>
         </>
       }
-    </>
+    </div>
   )
 }
 
