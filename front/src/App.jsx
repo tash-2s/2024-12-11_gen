@@ -86,7 +86,7 @@ Available for pre-order at $599, the Mac mini delivers outstanding performance a
       </div>}
       <br />
       {isSummarizing ? <div>summarizing...</div> : <></>}
-      {summary === null ? <></> :
+      {summary === null || !isSummarizing ? <></> :
         <div>
           <br />
           <textarea
