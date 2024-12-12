@@ -110,7 +110,7 @@ function App() {
 
 export default App
 
-const host = "https://two024-12-11-gen.onrender.com"
+const host = "http://127.0.0.1:8000"
 
 const transcribe = async (url) => {
   const r = await fetch(
