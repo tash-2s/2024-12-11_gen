@@ -110,9 +110,11 @@ function App() {
 
 export default App
 
+const host = "https://two024-12-11-gen.onrender.com"
+
 const transcribe = async (url) => {
   const r = await fetch(
-    "http://127.0.0.1:8000/transcribe",
+    `${host}/transcribe`,
     {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -125,7 +127,7 @@ const transcribe = async (url) => {
 
 const summarize = async (text) => {
   const r = await fetch(
-    "http://127.0.0.1:8000/summarize",
+    `${host}/summarize`,
     {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
