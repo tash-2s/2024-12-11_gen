@@ -8,10 +8,12 @@ import re
 import os
 
 app = FastAPI()
-origins = ["*"]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=[
+        "https://2024-12-11-gen.pages.dev",
+        "https://two024-12-11-gen.onrender.com",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
