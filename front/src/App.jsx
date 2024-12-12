@@ -7,13 +7,7 @@ function App() {
   const [transcript, setTranscript] = useState(null);
 
   const [isSummarizing, setIsSummarizing] = useState(false)
-  const [summary, setSummary] = useState(`The latest announcement from Apple introduces the new Mac mini, redesigned to showcase the power of Apple silicon and Apple Intelligence, offering a more compact yet significantly more powerful computing experience. The new Mac mini measures only five by five inches, featuring both front and back ports for accessibility, leveraging innovative thermal architecture for efficient performance.
-
-The device is constructed with sustainable materials, including over 50% recycled content, and is now the first carbon-neutral Mac. With the transition from M2 to M4 chips, users can expect up to 1.8 times faster performance, enhanced graphics capabilities, and a greatly accelerated Neural Engine.
-
-Apple Intelligence is integrated into the new Mac mini, enabling advanced features in everyday tasks, including intuitive enhancements to Siri and tools for document processing. There's also a notable introduction of the M4 Pro chip, designed for demanding workloads, significantly improving both CPU and GPU performance, as well as boosting memory bandwidth.
-
-Available for pre-order at $599, the Mac mini delivers outstanding performance and connectivity, with Thunderbolt 5 integration for rapid data transfer, making it suitable for diverse users from creatives to enterprises. The new Mac mini exemplifies Apple's commitment to combining high performance with sustainability, setting a new standard for desktop computing.`) // TODO: openai dead now
+  const [summary, setSummary] = useState(null)
 
   const handleTranscribe = async () => {
     setIsTranscribing(true)
@@ -86,7 +80,7 @@ Available for pre-order at $599, the Mac mini delivers outstanding performance a
       </div>}
       <br />
       {isSummarizing ? <div>summarizing...</div> : <></>}
-      {summary === null || !isSummarizing ? <></> :
+      {summary === null ? <></> :
         <div>
           <br />
           <textarea
