@@ -8,10 +8,7 @@ import re
 import os
 
 app = FastAPI()
-origins = [
-    "http://localhost:5173",
-    "https://2024-12-11-gen.pages.dev",
-]
+origins = ["*"]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
