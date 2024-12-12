@@ -35,7 +35,15 @@ def transcribe(video: Video):
     transcript_text = clean_transcript_text(transcript)
     print(transcript_text)
 
-    summary = summarize(transcript_text)
+    return {"text": transcript_text}
+
+class Tx(BaseModel):
+    text: str
+
+@app.put("/summarize")
+def put_summarize(t: Tx):
+    text = t.text
+    summary = summarize(text)
     print(summary)
 
     return {"summary": summary}

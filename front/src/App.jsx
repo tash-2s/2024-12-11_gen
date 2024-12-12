@@ -1,17 +1,27 @@
 import { useState, useRef } from 'react'
 
 function App() {
-  const [url, setUrl] = useState("");
-  const [isUrlLoading, setIsUrlLoading] = useState(false)
+  const [yurl, setYurl] = useState(null);
+
+  const [isTranscribing, setIsTranscribing] = useState(false)
+  const [transcript, setTranscript] = useState(null);
+
+  const [isSummarizing, setIsSummarizing] = useState(false)
   const [summary, setSummary] = useState("Hello there!") // TODO: `null`
 
-  const foo = async () => {
-    setIsUrlLoading(true)
-    const s = await transcribe(url)
+  const handleTranscribe = async () => {
+    setIsTranscribing(true)
+    const t = await transcribe(yurl)
+    setTranscript(t)
+  }
+
+  const handleSummarize = async () => {
+    setIsSummarizing(true)
+    const s = await summarize(transcript)
     setSummary(s)
   }
 
-  const genVid = async () => {
+  const handleVideo = async () => {
     if (domManipulationArea.current) {
       const targetDiv = domManipulationArea.current;
 
@@ -33,29 +43,48 @@ function App() {
 
   return (
     <div style={{ marginLeft: '30px', marginTop: '20px' }}>
-      <div>
-        <input
-          type="text"
-          placeholder="Enter YouTube URL"
-          size={50}
-          value={url}
-          onChange={e => setUrl(e.target.value)}
-        />
-        {" "}
-        <button type="button" onClick={() => foo()}>Go</button>
+      <input
+        type="text"
+        placeholder="Enter YouTube URL"
+        size={50}
+        value={yurl || ""}
+        onChange={e => setYurl(e.target.value)}
+      />
+      {" "}
+      <button type="button" onClick={() => handleTranscribe()}>Transcribe</button>
+      <br />
+      <br />
+      {isTranscribing ? <div>
+        <YoutubeEmbed yurl={yurl} />
+      </div> : <></>}
+      <br />
+      {isTranscribing ? <div>transcribing...</div> : <></>}
+      {transcript === null ? <></> : <div>
         <br />
+        <textarea
+          value={transcript}
+          rows="6"
+          cols="60"
+          style={{
+            overflow: 'scroll',
+          }}
+          readOnly
+        ></textarea>
         <br />
-        {isUrlLoading ? <div>
-          <YoutubeEmbed yurl={url} />
-        </div> : <></>}
-        <br />
-        {isUrlLoading ? <div>Getting transcript and summarizing...</div> : <></>}
-      </div>
+        <button
+          type="button"
+          onClick={() => handleSummarize()}
+        >
+          Summarize
+        </button>
+      </div>}
+      <br />
+      {isSummarizing ? <div>summarizing...</div> : <></>}
       {summary === null ? <></> :
-        <>
+        <div>
           <br />
           <textarea
-            value={summary || ""}
+            value={summary}
             rows="5"
             cols="50"
             style={{
@@ -66,14 +95,14 @@ function App() {
           <br />
           <button
             type="button"
-            onClick={() => genVid()}
+            onClick={() => handleVideo()}
           >
-            HeyGen!
+            HeyGen
           </button>
           <br />
           <br />
           <div ref={domManipulationArea}></div>
-        </>
+        </div>
       }
     </div>
   )
@@ -88,6 +117,19 @@ const transcribe = async (url) => {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ url: url }),
+    }
+  ).then(r => r.json())
+
+  return r.text
+}
+
+const summarize = async (text) => {
+  const r = await fetch(
+    "http://127.0.0.1:8000/summarize",
+    {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: text }),
     }
   ).then(r => r.json())
 
