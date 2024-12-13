@@ -7,7 +7,7 @@ function App() {
   const [transcript, setTranscript] = useState(null);
 
   const [isSummarizing, setIsSummarizing] = useState(false)
-  const [summary, setSummary] = useState("Hello there!") // TODO: `null`
+  const [summary, setSummary] = useState(null)
 
   const handleTranscribe = async () => {
     setIsTranscribing(true)
@@ -110,7 +110,7 @@ function App() {
 
 export default App
 
-const host = "https://two024-12-11-gen.onrender.com"
+const host = "http://127.0.0.1:8000"
 
 const transcribe = async (url) => {
   const r = await fetch(
