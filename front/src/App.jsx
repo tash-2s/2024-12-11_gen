@@ -110,8 +110,7 @@ function App() {
 
 export default App
 
-// const host = "https://two024-12-11-gen.onrender.com"
-const host = "http://127.0.0.1:8000"
+const host = import.meta.env.DEV ? "http://127.0.0.1:8000" : "https://two024-12-11-gen.onrender.com"
 
 const transcribe = async (url) => {
   const r = await fetch(
